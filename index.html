@@ -6,6 +6,14 @@
 </head>
 <body>
   <h1>Lookup</h1>
-  <p>Chat-native UI for Lookup</p>
+  <input type="text" id="wordInput" placeholder="Enter word">
+  <button onclick="processWord()">Submit</button>
+  <p id="output">Chat-native UI for Lookup</p>
+  <script>
+    function processWord() {
+      let word = document.getElementById("wordInput").value;
+      document.getElementById("output").innerText = `Selected: ${word}`;
+    }
+  </script>
 </body>
 </html>
