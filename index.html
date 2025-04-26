@@ -6,6 +6,7 @@
   <style>
     #output { line-height: 1.5; }
     .definition { margin: 10px 0; }
+    .error { color: red; }
   </style>
 </head>
 <body>
@@ -15,23 +16,40 @@
   <div id="output">Chat-native UI for Lookup</div>
   <script>
     async function fetchDefinition() {
-      let word = document.getElementById("wordInput").value;
+      let word = document.getElementById("wordInput").value.trim().toLowerCase();
       try {
         const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
         const data = await response.json();
+        if (!data[0]?.meanings) {
+          let suggestions = await getSuggestions(word);
+          document.getElementById("output").innerHTML = `<div class="error">No definitions found for "${word}". Did you mean: ${suggestions || "check spelling"}?</div>`;
+          return;
+        }
         let output = `<b>${word}:</b><br>`;
-        data[0]?.meanings?.forEach(m => {
+        data[0].meanings.forEach(m => {
           output += `<b>${m.partOfSpeech}</b>:<br>`;
           m.definitions.forEach((d, i) => {
             output += `<div class="definition">${i + 1}. ${d.definition}</div>`;
           });
         });
-        document.getElementById("output").innerHTML = output || "No definitions found";
+        document.getElementById("output").innerHTML = output;
       } catch (error) {
-        document.getElementById("output").innerText = "Error fetching definition";
+        document.getElementById("output").innerHTML = `<div class="error">Error fetching definition for "${word}". Try again.</div>`;
       }
+    }
+    async function getSuggestions(word) {
+      const words = ["flow", "wall", "run", "light"]; // Mock dictionary for suggestions
+      let suggestions = words.filter(w => {
+        let minLength = Math.min(w.length, word.length);
+        let differences = 0;
+        for (let i = 0; i < minLength; i++) {
+          if (w[i] !== word[i]) differences++;
+          if (differences > 2) return false;
+        }
+        return true;
+      });
+      return suggestions.length ? suggestions.join(", ") : "";
     }
   </script>
 </body>
 </html>
-
