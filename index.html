@@ -38,14 +38,14 @@
       }
     }
     async function getSuggestions(word) {
-      const words = ["flow", "wall", "run", "light", "running", "runing", "lite", "flows"];
+      const words = ["flow", "wall", "run", "light", "running", "flows", "lite", "runing", "runn", "walling"];
       let suggestions = words.filter(w => {
         let minLength = Math.min(w.length, word.length);
         let differences = Math.abs(w.length - word.length);
         for (let i = 0; i < minLength; i++) {
           if (w[i] !== word[i]) differences++;
         }
-        return differences <= 3 && w !== word;
+        return differences <= 2 && w !== word;
       }).slice(0, 3);
       return suggestions.length ? suggestions.join(", ") : "";
     }
