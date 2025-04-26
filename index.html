@@ -1,8 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Lookup</title>
+  <style>
+    #output { line-height: 1.5; }
+    .definition { margin: 10px 0; }
+  </style>
 </head>
 <body>
   <h1>Lookup</h1>
@@ -15,8 +20,8 @@
       try {
         const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
         const data = await response.json();
-        let definitions = data[0]?.meanings?.flatMap(m => m.definitions.map(d => d.definition)).join("; ") || "No definitions found";
-        document.getElementById("output").innerText = `${word}: ${definitions}`;
+        let definitions = data[0]?.meanings?.flatMap(m => m.definitions.map(d => `<div class="definition">${d.definition}</div>`)).join("") || "No definitions found";
+        document.getElementById("output").innerHTML = `<b>${word}:</b><br>${definitions}`;
       } catch (error) {
         document.getElementById("output").innerText = "Error fetching definition";
       }
