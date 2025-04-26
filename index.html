@@ -38,7 +38,7 @@
       }
     }
     async function getSuggestions(word) {
-      const words = ["flow", "wall", "run", "light"]; // Mock dictionary for suggestions
+      const words = ["flow", "wall", "run", "light", "running"]; // Expanded mock dictionary
       let suggestions = words.filter(w => {
         let minLength = Math.min(w.length, word.length);
         let differences = 0;
@@ -47,7 +47,7 @@
           if (differences > 2) return false;
         }
         return true;
-      });
+      }).slice(0, 3); // Limit to 3 suggestions
       return suggestions.length ? suggestions.join(", ") : "";
     }
   </script>
