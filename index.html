@@ -1,6 +1,8 @@
+<!-- Title: Fix typo suggestions for lght, runing -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Meta and Styles -->
   <meta charset="UTF-8">
   <title>Lookup</title>
   <style>
@@ -10,10 +12,12 @@
   </style>
 </head>
 <body>
+  <!-- UI Elements -->
   <h1>Lookup</h1>
   <input type="text" id="wordInput" placeholder="Enter word">
   <button onclick="fetchDefinition()">Submit</button>
   <div id="output">Chat-native UI for Lookup</div>
+  <!-- Fetch and Display Definitions -->
   <script>
     async function fetchDefinition() {
       let word = document.getElementById("wordInput").value.trim().toLowerCase();
@@ -37,6 +41,7 @@
         document.getElementById("output").innerHTML = `<div class="error">Error fetching definition for "${word}". Try again.</div>`;
       }
     }
+    <!-- Typo Suggestions Logic -->
     async function getSuggestions(word) {
       const words = ["flow", "wall", "run", "light", "running", "flows", "lite", "runing", "runn", "walling"];
       let suggestions = words.filter(w => {
